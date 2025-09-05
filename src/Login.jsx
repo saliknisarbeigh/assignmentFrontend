@@ -1,7 +1,68 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addUser } from "./utils/userSlice";
 
 const Login = () => {
-  return <div>Login</div>;
+  const [emailId, setEmailId] = useState("salik@gmail.com");
+  const [password, setPassword] = useState("Salik@511");
+
+  const dispatch = useDispatch();
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/login",
+        {
+          emailId,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("API response:", res.data, typeof res.data); // 👈 check this
+      dispatch(addUser(res.data.user));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className="flex justify-center my-10">
+      <div className="card bg-base-300 flex justify-center w-96 shadow-sm">
+        <div className="card-body">
+          <h2 className="card-title">Login!</h2>
+          <div>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Enter your email Id</legend>
+              <input
+                type="text"
+                className="input"
+                value={emailId}
+                onChange={(e) => setEmailId(e.target.value)}
+                placeholder="salik@xyz.com"
+              />
+              <legend className="fieldset-legend">Enter your password</legend>
+              <input
+                type="text"
+                className="input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Stong Password@511!"
+              />
+              {/* <p className="label">Optional</p> */}
+            </fieldset>
+          </div>
+          <div className="card-actions justify-center">
+            <button onClick={handleLogin} className="btn btn-primary">
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;
