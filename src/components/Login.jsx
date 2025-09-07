@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [emailId, setEmailId] = useState("salik@gmail.com");
   const [password, setPassword] = useState("Salik@511");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-     BASE_URL+"/login",
+        BASE_URL + "/login",
         {
           emailId,
           password,
@@ -24,10 +25,11 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log("API response:", res.data, typeof res.data); // 👈 check this
+      console.log("API response:", res.data, typeof res.data);
       dispatch(addUser(res.data.user));
       navigate("/");
     } catch (error) {
+      setError(error?.response?.data);
       console.error(error);
     }
   };
@@ -58,6 +60,7 @@ const Login = () => {
               {/* <p className="label">Optional</p> */}
             </fieldset>
           </div>
+          <p>{error}</p>
           <div className="card-actions justify-center">
             <button onClick={handleLogin} className="btn btn-primary">
               Login
