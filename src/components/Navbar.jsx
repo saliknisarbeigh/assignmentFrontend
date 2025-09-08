@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
@@ -19,8 +20,10 @@ const Navbar = () => {
         }
       );
       dispatch(removeUser());
+      toast.success("Logged out successfully!");
       return navigate("/login");
     } catch (err) {
+      toast.error("Failed to logout. Please try again.");
       console.error(err);
     }
   };
@@ -53,12 +56,12 @@ const Navbar = () => {
               >
                 <li>
                   <Link to="/profile" className="justify-between">
-                    Profile
+                    Edit Profile
                     <span className="badge">New</span>
                   </Link>
                 </li>
                 <li>
-                  <a>Settings</a>
+                  <Link to="/connections">Connections</Link>
                 </li>
                 <li>
                   <a onClick={handleLogout}>Logout</a>

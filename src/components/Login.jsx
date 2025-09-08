@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("salik@gmail.com");
@@ -27,9 +28,11 @@ const Login = () => {
       );
       console.log("API response:", res.data, typeof res.data);
       dispatch(addUser(res.data.user));
+      toast.success("Login successful! Welcome back!");
       navigate("/");
     } catch (error) {
       setError(error?.response?.data);
+      toast.error(error?.response?.data || "Login failed. Please try again.");
       console.error(error);
     }
   };
