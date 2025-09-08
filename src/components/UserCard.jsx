@@ -30,7 +30,7 @@ const UserCard = ({ user }) => {
         {/* Info Section */}
         <div className="p-4 space-y-3 bg-white">
           <p className="text-gray-700 text-sm">
-            <p className="font-semibold">Gender:</p> {gender}
+            <span className="font-semibold">Gender:</span> {gender}
           </p>
           <p className="text-gray-700 text-sm">
             <span className="font-semibold">Skills:</span> {skills}

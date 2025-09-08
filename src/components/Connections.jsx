@@ -59,17 +59,25 @@ const Connections = () => {
                 <h2 className="text-sm font-semibold text-gray-800">
                   {firstName} {lastName}
                 </h2>
-                {age && gender && (
-                  <p className="text-xs text-gray-500">
-                    {age + " , " + gender}
+                {(age || gender) && (
+                  <p className="text-sm text-gray-500">
+                    {age ? `${age} years` : ""} {age && gender ? "•" : ""}
+                    {gender || ""}
                   </p>
                 )}
 
                 <p className="text-xs text-gray-500">{about}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {skills.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-              {/* <button className="btn btn-sm btn-primary hover:bg-blue-600">
-                Add Friend
-              </button> */}
             </div>
           );
         })}
