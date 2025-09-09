@@ -5,20 +5,30 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import toast from "react-hot-toast";
+
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
-  const [age, setAge] = useState(user.age);
-  const [gender, setGender] = useState(user.gender);
-  const [about, setAbout] = useState(user.about);
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [skills, setSkills] = useState(user.skills);
+  const [age, setAge] = useState(user.age || "");
+  const [gender, setGender] = useState(user.gender || "");
+  const [about, setAbout] = useState(user.about || "");
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
+  const [skills, setSkills] = useState(user.skills || []); // Array
+  const [skillsInput, setSkillsInput] = useState(
+    (user.skills || []).join(", ")
+  ); // String for input
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
+
   const saveProfile = async () => {
     setError("");
     try {
+      const skillsArray = skillsInput
+        .split(",")
+        .map((skill) => skill.trim())
+        .filter((skill) => skill.length > 0);
+
       const res = await axios.patch(
         BASE_URL + "/profile/edit",
         {
@@ -26,7 +36,7 @@ const EditProfile = ({ user }) => {
           lastName,
           age,
           gender,
-          skills,
+          skills: skillsArray,
           photoUrl,
           about,
         },
@@ -34,11 +44,14 @@ const EditProfile = ({ user }) => {
           withCredentials: true,
         }
       );
-      dispatch(addUser(res?.data?.data));
+      dispatch(addUser(res.data.data));
+      setSkills(skillsArray); // Update local skills state
       toast.success("Profile updated successfully!");
     } catch (error) {
-      setError(error.response.data);
-      toast.error(error.response.data || "Failed to update profile. Please try again.");
+      setError(error.response?.data || error.message);
+      toast.error(
+        error.response?.data || "Failed to update profile. Please try again."
+      );
     }
   };
 
@@ -122,9 +135,9 @@ const EditProfile = ({ user }) => {
             <input
               type="text"
               className="input input-bordered w-full"
-              value={skills}
-              onChange={(e) => setSkills(e.target.value)}
-              placeholder="Skills"
+              value={skillsInput}
+              onChange={(e) => setSkillsInput(e.target.value)}
+              placeholder="Skills separated by commas"
             />
           </div>
         </fieldset>

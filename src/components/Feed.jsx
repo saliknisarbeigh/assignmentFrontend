@@ -6,11 +6,12 @@ import { addFeed } from "../utils/feedSlice";
 import UserCard from "./userCard";
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
+  const user = useSelector((store) => store.user); // ✅ get the logged-in user
   const dispatch = useDispatch();
+
   console.log(feed);
 
   const getFeed = async () => {
-    // if (feed) return;
     try {
       const res = await axios.get(BASE_URL + "/user/feed", {
         withCredentials: true,
@@ -21,16 +22,21 @@ const Feed = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
-    getFeed();
-  }, []);
+    if (user) {
+      // ✅ fetch only when user is available
+      getFeed();
+    }
+  }, [user]);
+
+  if (!feed || feed.length <= 0)
+    return <h1 className="text-center mt-10">NO New Users Found</h1>;
 
   return (
-    feed && (
-      <div className="flex  justify-center my-10">
-        <UserCard user={feed[0]} />
-      </div>
-    )
+    <div className="flex justify-center my-10">
+      <UserCard user={feed[0]} />
+    </div>
   );
 };
 

@@ -89,14 +89,17 @@ const RequestReceived = () => {
                   {about || "No additional information"}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                  <p className="text-gray-700 text-sm">
+                    <span className="font-semibold">Skills:</span>{" "}
+                    {skills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className="inline-block bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs mr-1 mb-1"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col space-y-2 ml-4">
