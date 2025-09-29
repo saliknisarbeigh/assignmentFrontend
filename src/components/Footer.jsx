@@ -7,7 +7,7 @@ const Footer = () => {
         <aside>
           <p>
             Copyright © {new Date().getFullYear()} - All right reserved by
-            UniPulse
+        salik👨‍💻
           </p>
         </aside>
       </footer>
