@@ -9,31 +9,36 @@ import Feed from "./components/Feed";
 import { Toaster } from "react-hot-toast";
 import Connections from "./components/Connections";
 import RequestReceived from "./components/RequestReceived";
+import Tasks from "./components/Tasks.jsx";
+import { TaskProvider } from "./contexts/TaskContext.jsx";
 const App = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-900 text-gray-100">
       <Provider store={appStore}>
-        <BrowserRouter basename="/">
-          <Routes>
-            <Route path="/" element={<Body />}>
-              <Route path="/" element={<Feed />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/connections" element={<Connections />} />
-              <Route path="/requests-received" element={<RequestReceived />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "#363636",
-              color: "#fff",
-            },
-          }}
-        />
+        <TaskProvider>
+          <BrowserRouter basename="/">
+            <Routes>
+              <Route path="/" element={<Body />}>
+                <Route path="/" element={<Feed />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/connections" element={<Connections />} />
+                <Route path="/requests-received" element={<RequestReceived />} />
+                <Route path="/tasks" element={<Tasks />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: "#363636",
+                color: "#fff",
+              },
+            }}
+          />
+        </TaskProvider>
       </Provider>
     </div>
   );
