@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+import { BASE_URL } from '../utils/constants';
 
 const handleResponse = async (response) => {
   const data = await response.json();
@@ -12,14 +12,14 @@ const handleResponse = async (response) => {
 
 export const taskService = {
   getAll: async () => {
-    const response = await fetch(`${API_BASE_URL}/tasks`, {
+    const response = await fetch(`${BASE_URL}/api/tasks`, {
       credentials: 'include',
     });
     return handleResponse(response);
   },
 
   create: async (taskData) => {
-    const response = await fetch(`${API_BASE_URL}/tasks`, {
+    const response = await fetch(`${BASE_URL}/api/tasks`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -31,7 +31,7 @@ export const taskService = {
   },
 
   update: async (id, updates) => {
-    const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/tasks/${id}`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -43,7 +43,7 @@ export const taskService = {
   },
 
   delete: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/tasks/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     });
